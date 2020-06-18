@@ -3,9 +3,9 @@ project(coding)
 
 set(CMAKE_CXX_STANDARD 14)
 
-file (GLOB files newcoder/*.cpp leetcode/*.cpp PTA/*.cpp)
+file (GLOB files PTA/*.cpp newcoder/*.cpp leetcode/*.cpp)
 foreach (file ${files})
 string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-add_executable (${exe} ${file})
+add_executable (${exe} ${file} PTA/Emergency.cpp)
 message (\ \ \ \ --\ src/${exe}.cpp\ will\ be\ compiled\ to\ bin/${exe})
 endforeach ()
