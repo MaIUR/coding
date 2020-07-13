@@ -27,7 +27,7 @@ using namespace std;
 //    bool leaf;
 //    Node(int _id, int _depth)
 //};
-struct Node {
+/*struct Node {
     int id, nchild;
     vector<int> child;
 
@@ -92,6 +92,65 @@ int main() {
         cout << leaf[0];
         for (int i = 1; i <= dt; ++i) {
             cout << " " << leaf[i];
+        }
+        cout << endl;
+    }
+    return 0;
+}*/
+
+struct Node {
+    int id;
+    vector<Node *> child;
+
+    explicit Node(int _id) : id(_id) {}
+};
+
+unordered_map<int, Node *> mp;
+queue<Node *> q;
+Node *root = new Node(1);
+int n, m, pid, nchild, cid, d, countNode, tmpCount;
+int ans[100];
+
+int main() {
+    cin >> n;
+    if (n != 0) {
+        mp[1] = root;
+        cin >> m;
+        while (m-- > 0) {
+            cin >> pid >> nchild;
+            if (mp.find(pid) == mp.end())
+                mp[pid] = new Node(pid);
+            while (nchild-- > 0) {
+                cin >> cid;
+                if (mp.find(cid) == mp.end())
+                    mp[cid] = new Node(cid);
+                mp[pid]->child.push_back(mp[cid]);
+            }
+        }
+        memset(ans, 0, sizeof(ans));
+        q.push(root);
+        d = tmpCount = 0;
+        countNode = 1;
+        while (!q.empty()) {
+            Node *cur = q.front();
+            q.pop();
+            if (cur->child.empty()) {
+                ans[d]++;
+            } else {
+                tmpCount += cur->child.size();
+                for (auto &i : cur->child) {
+                    q.push(i);
+                }
+            }
+            if (--countNode == 0) {
+                countNode = tmpCount;
+                tmpCount = 0;
+                d++;
+            }
+        }
+        cout << ans[0];
+        for (int i = 1; i < d; ++i) {
+            cout << " " << ans[i];
         }
         cout << endl;
     }
