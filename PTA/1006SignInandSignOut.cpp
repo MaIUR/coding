@@ -25,24 +25,40 @@
 
 using namespace std;
 
-struct Time {
-    int hour, minute, second;
+//struct Time {
+//    int hour, minute, second;
+//
+//    Time(int _hour, int _minute, int _second) : hour(_hour), minute(_minute), second(_second) {}
+//};
 
-    Time(int _hour, int _minute, int _second) : hour(_hour), minute(_minute), second(_second) {}
-};
+int n, h1, h2, m1, m2, s1, s2, uh = 23, um = 59, us = 59, lh = 0, lm = 0, ls = 0;
+string id, unlock, lockup;
+//Time early(23, 59, 59), late(0, 0, 0);
 
-int n, h, m, s;
-string id, signin, signout, unlock, lockup;
-Time early(23, 59, 59), late(0, 0, 0);
+bool earlier(int ah, int am, int as, int bh, int bm, int bs) {
+    if (ah < bh) return true;
+    if (ah > bh) return false;
+    if (am < bm) return true;
+    if (am > bm) return false;
+    return as < bs;
+}
+
+bool later(int ah, int am, int as, int bh, int bm, int bs) {
+    if (ah > bh) return true;
+    if (ah < bh) return false;
+    if (am > bm) return true;
+    if (am < bm) return false;
+    return as > bs;
+}
 
 // scanf输入
 int main() {
     cin >> n;
     while (n-- > 0) {
         //cout << n << endl;
-        cin >> id >> signin >> signout;
+        //cin >> id >> signin >> signout;
         //cout << id << " " << signin << " " << signout << endl;
-        h = (signin[0] - '0') * 10 + signin[1] - '0';
+        /*h = (signin[0] - '0') * 10 + signin[1] - '0';
         if (h < early.hour) {
             m = (signin[3] - '0') * 10 + signin[4] - '0';
             s = (signin[6] - '0') * 10 + signin[7] - '0';
@@ -93,8 +109,50 @@ int main() {
                     lockup = id;
                 }
             }
-        }
+        }*/
+        cin >> id;
+        scanf("%d:%d:%d %d:%d:%d", &h1, &m1, &s1, &h2, &m2, &s2);
+        //if (earlier(h1, m1, s1, h2, m2, s2)) {
+            if (earlier(h1, m1, s1, uh, um, us)) {
+                unlock = id;
+                uh = h1;
+                um = m1;
+                us = s1;
+            }
+            if (later(h2, m2, s2, lh, lm, ls)) {
+                lockup = id;
+                lh = h2;
+                lm = m2;
+                ls = s2;
+            }
+        //}
     }
     cout << unlock << " " << lockup << endl;
     return 0;
 }
+
+/*时间的转化可以参考
+ int main() {
+    int n, minn = INT_MAX, maxn = INT_MIN;
+    scanf("%d", &n);
+    string unlocked, locked;
+    for(int i = 0; i < n; i++) {
+        string t;
+        cin >> t;
+        int h1, m1, s1, h2, m2, s2;
+        scanf("%d:%d:%d %d:%d:%d", &h1, &m1, &s1, &h2, &m2, &s2);
+        int tempIn = h1 * 3600 + m1 * 60 + s1;
+        int tempOut = h2 * 3600 + m2 * 60 + s2;
+        if (tempIn < minn) {
+            minn = tempIn;
+            unlocked = t;
+        }
+        if (tempOut > maxn) {
+            maxn = tempOut;
+            locked = t;
+        }
+    }
+    cout << unlocked << " " << locked;
+    return 0;
+}
+ */
