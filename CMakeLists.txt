@@ -3,7 +3,7 @@ project(coding)
 
 set(CMAKE_CXX_STANDARD 14)
 
-file (GLOB files PTA/*.cpp newcoder/*.cpp leetcode/*.cpp)
+file (GLOB files PTA/*.cpp newcoder/*.cpp leetcode/*.cpp buaa2020.7/*.cpp)
 foreach (file ${files})
 string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
 add_executable (${exe} ${file})
